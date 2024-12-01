@@ -16,7 +16,7 @@ AMADEUS_CLIENT_SECRET = st.secrets["secret_key"]
 # Load city list from CSV file
 @st.cache_data
 def load_city_data():
-    return pd.read_csv("../TravelDashboard/worldcities.csv")
+    return pd.read_csv("worldcities.csv")
 
 cities_df = load_city_data()
 
