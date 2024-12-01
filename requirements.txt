@@ -1,6 +1,6 @@
 streamlit
+streamlit_folium
 pandas
 requests
 folium
 plotly
-streamlit_folium
