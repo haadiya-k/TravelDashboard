@@ -646,6 +646,7 @@ elif page == "🎉 Events - Find Local Happenings":
 
 # Weather Forecast
 elif page == "🌦️ Weather Forecast - Check Weather":
+    st.title("🌦️ Weather Forecast - Check Weather")
     # Initialize session state for city selection
     if "selected_city" not in st.session_state:
         st.session_state.selected_city = cities_df["city"].iloc[0]  # Default to the first city
