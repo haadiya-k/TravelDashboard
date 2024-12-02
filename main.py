@@ -438,6 +438,7 @@ if page == "🏠 Home - Overview":
 
 # Flights
 elif page == "✈️ Flights - Book Your Travel":
+    st.title("✈️ Flights - Book Your Travel")
     st.subheader("Flight Search")
     origin = st.text_input("Departure Airport Code", "JFK")
     destination = st.text_input("Destination Airport Code", "LAX")
