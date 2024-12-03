@@ -480,6 +480,10 @@ elif page == "🏨 Hotels - Find Accommodations":
 
         # Input fields for city, start date, and end date on the Search Hotels tab
         city = st.selectbox("Select a City:", cities_df["city"].unique())
+
+        # Validate selected city
+        city_data = cities_df[cities_df["city"] == city]
+        
         start_date = st.date_input("Start Date", datetime.now())
         end_date = st.date_input("End Date", datetime.now() + timedelta(days=3))
 
