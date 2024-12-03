@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import pandas as pd
 import requests
 import folium
-from streamlit_folium import folium_static
+from streamlit_folium import folium_static, st_folium
 import plotly.express as px
 
 # API Keys
@@ -498,7 +498,14 @@ elif page == "🏨 Hotels - Find Accommodations":
                     if hotels:
                         for hotel in hotels:
                             st.write(f"**{hotel['name']}**")
-                            st.write(f"Rating: {hotel.get('rating', 'N/A')} | Address: {hotel.get('vicinity', 'N/A')}")
+                            st.write(f"Rating: {hotel.get('rating', 'N/A')} ⭐ | Address: {hotel.get('vicinity', 'N/A')}")
+                            price_level = hotel.get('price_level', None)
+                            if price_level:
+                                price_description = "$" * price_level
+                                st.write(f"Price Level: {price_description}")
+                            else:
+                                st.write("Price Level: N/A")
+
                             if 'photos' in hotel:
                                 photo_reference = hotel['photos'][0]['photo_reference']
                                 st.image(
@@ -514,13 +521,18 @@ elif page == "🏨 Hotels - Find Accommodations":
 
         # Plot each hotel on the map if search has been conducted
         if 'hotels' in locals() and hotels:
+
             for hotel in hotels:
                 lat = hotel['geometry']['location']['lat']
                 lng = hotel['geometry']['location']['lng']
                 hotel_name = hotel['name']
+
                 folium.Marker(
                     [lat, lng],
-                    popup=f"{hotel_name}<br>Rating: {hotel.get('rating', 'N/A')}",
+                    popup=f"{hotel_name}<br>"
+                          f"\nRating: {hotel.get('rating', 'N/A')}⭐"
+                          f"\nAddress: {hotel.get('vicinity', 'N/A')}<br>"
+                          f"\nPrice Level: {'$' * hotel.get('price_level', 0) if hotel.get('price_level') else 'N/A'}",
                     tooltip=hotel_name
                 ).add_to(hotel_map)
             folium_static(hotel_map, width=700, height=500)
