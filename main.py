@@ -269,7 +269,7 @@ def plot_flight_prices(flights, dictionaries):
     fig.update_layout(xaxis_title="Airline", yaxis_title="Average Price (USD)",
                       xaxis_tickangle=-45)
 
-    st.plotly_chart(fig)  # Display the chart in Streamlit
+    st.plotly_chart(fig)
 
 def display_three_day_outlook(weather_data):
     st.write("### 3-Day Outlook")
@@ -278,8 +278,8 @@ def display_three_day_outlook(weather_data):
     three_day_forecast = []
     for item in weather_data["list"]:
         date_raw = datetime.strptime(item["dt_txt"], "%Y-%m-%d %H:%M:%S")
-        day_of_week = date_raw.strftime("%A")  # Example: "Monday"
-        date_formatted = date_raw.strftime("%B %d, %Y")  # Example: "November 18, 2024"
+        day_of_week = date_raw.strftime("%A")  #"Monday"
+        date_formatted = date_raw.strftime("%B %d, %Y")  #"November 18, 2024"
         temp_max = round(item["main"]["temp_max"])
         temp_min = round(item["main"]["temp_min"])
         precipitation = item.get("rain", {}).get("3h", 0)
@@ -304,6 +304,7 @@ def display_three_day_outlook(weather_data):
     col1, col2, col3 = st.columns(3)
     columns = [col1, col2, col3]
 
+    #Formatting styles for three day outlook on weather page
     for col, day in zip(columns, three_day_forecast):
         with col:
             st.markdown(
@@ -333,7 +334,6 @@ def display_three_day_outlook(weather_data):
 def display_forecast_line_graph(weather_data):
     st.write("### Weather Forecast (Next 24 Hours)")
 
-    # Prepare data for the next 24 hours
     hourly_forecast = []
     current_time = datetime.now()
 
@@ -343,16 +343,16 @@ def display_forecast_line_graph(weather_data):
 
         # Filter to include only the next 24 hours
         if current_time <= datetime_obj <= current_time + timedelta(hours=24):
-            formatted_time = datetime_obj.strftime("%I %p")  # Example: "9 PM"
+            formatted_time = datetime_obj.strftime("%I %p")
             temp = round(item["main"]["temp"])
             rain = item.get("rain", {}).get("3h", 0)
-            wind_speed_kmh = round(item["wind"]["speed"] * 3.6, 1)  # Convert m/s to km/h
+            wind_speed_kmh = round(item["wind"]["speed"], 1)
 
             hourly_forecast.append({
                 "Time": formatted_time,
                 "Temperature (°C)": temp,
                 "Rain (mm)": rain,
-                "Wind Speed (km/h)": wind_speed_kmh,
+                "Wind Speed (m/s)": wind_speed_kmh,
             })
 
     # Convert to DataFrame for visualization
@@ -380,7 +380,7 @@ def display_long_term_outlook(weather_data):
     # Extract extended forecast data
     long_term_forecast = []
     for item in weather_data["list"]:
-        date = item["dt_txt"].split(" ")[0]  # Extract the date part
+        date = item["dt_txt"].split(" ")[0]  # Extract the date
         temp_max = round(item["main"]["temp_max"])
         temp_min = round(item["main"]["temp_min"])
         rain = round(item.get("rain", {}).get("3h", 0), 1)  # Rainfall in mm
@@ -400,8 +400,7 @@ def display_long_term_outlook(weather_data):
                 "Weather": weather_desc,
             })
 
-        # Break after two weeks (14 days) if desired
-        if len(long_term_forecast) == 14:  # Extend to 30 for a month if data permits
+        if len(long_term_forecast) == 14:  #Two week forecast if data permits
             break
 
     # Convert the forecast data to a pandas DataFrame
